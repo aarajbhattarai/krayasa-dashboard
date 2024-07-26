@@ -1,9 +1,8 @@
 // @ts-strict-ignore
 import { Button } from "@dashboard/components/Button";
-import CardTitle from "@dashboard/components/CardTitle";
+import { DashboardCard } from "@dashboard/components/Card";
 import Checkbox from "@dashboard/components/Checkbox";
 import ResponsiveTable from "@dashboard/components/ResponsiveTable";
-import Skeleton from "@dashboard/components/Skeleton";
 import { TableButtonWrapper } from "@dashboard/components/TableButtonWrapper/TableButtonWrapper";
 import TableCellAvatar from "@dashboard/components/TableCellAvatar";
 import TableHead from "@dashboard/components/TableHead";
@@ -11,8 +10,9 @@ import { TablePaginationWithContext } from "@dashboard/components/TablePaginatio
 import TableRowLink from "@dashboard/components/TableRowLink";
 import { SaleDetailsFragment } from "@dashboard/graphql";
 import { productVariantEditPath } from "@dashboard/products/urls";
-import { Card, TableBody, TableCell, TableFooter } from "@material-ui/core";
+import { TableBody, TableCell, TableFooter } from "@material-ui/core";
 import { DeleteIcon, IconButton } from "@saleor/macaw-ui";
+import { Skeleton } from "@saleor/macaw-ui-next";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -44,15 +44,17 @@ const DiscountVariants: React.FC<SaleVariantsProps> = props => {
   const intl = useIntl();
 
   return (
-    <Card>
-      <CardTitle
-        title={intl.formatMessage(messages.discountVariantsHeader)}
-        toolbar={
+    <DashboardCard>
+      <DashboardCard.Header>
+        <DashboardCard.Title>
+          {intl.formatMessage(messages.discountVariantsHeader)}
+        </DashboardCard.Title>
+        <DashboardCard.Toolbar>
           <Button onClick={onVariantAssign} data-test-id="assign-variant">
             <FormattedMessage {...messages.discountVariantsButton} />
           </Button>
-        }
-      />
+        </DashboardCard.Toolbar>
+      </DashboardCard.Header>
       <ResponsiveTable>
         <colgroup>
           <col />
@@ -148,7 +150,7 @@ const DiscountVariants: React.FC<SaleVariantsProps> = props => {
           )}
         </TableBody>
       </ResponsiveTable>
-    </Card>
+    </DashboardCard>
   );
 };
 

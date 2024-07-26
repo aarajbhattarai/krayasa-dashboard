@@ -1,5 +1,5 @@
 // @ts-strict-ignore
-import NewActionDialog from "@dashboard/components/ActionDialog/NewActionDialog";
+import ActionDialog from "@dashboard/components/ActionDialog";
 import { useChannelsSearch } from "@dashboard/components/ChannelsAvailabilityDialog/utils";
 import { Combobox } from "@dashboard/components/Combobox";
 import ControlledCheckbox from "@dashboard/components/ControlledCheckbox";
@@ -11,7 +11,8 @@ import { getBySlug } from "@dashboard/misc";
 import { DialogProps } from "@dashboard/types";
 import commonErrorMessages from "@dashboard/utils/errors/common";
 import { mapSlugNodeToChoice } from "@dashboard/utils/maps";
-import { CircularProgress, TextField, Typography } from "@material-ui/core";
+import { CircularProgress, TextField } from "@material-ui/core";
+import { Box, Text } from "@saleor/macaw-ui-next";
 import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 
@@ -93,8 +94,7 @@ const GiftCardResendCodeDialog: React.FC<DialogProps> = ({ open, onClose }) => {
   useEffect(reset, [consentSelected]);
 
   return (
-    <NewActionDialog
-      maxWidth="sm"
+    <ActionDialog
       open={open}
       onConfirm={submit}
       confirmButtonLabel={intl.formatMessage(messages.submitButtonLabel)}
@@ -102,14 +102,15 @@ const GiftCardResendCodeDialog: React.FC<DialogProps> = ({ open, onClose }) => {
       title={intl.formatMessage(messages.title)}
       confirmButtonState={status}
       disabled={loading}
+      size="lg"
     >
       {loadingChannels ? (
         <div className={progressClasses.progressContainer}>
           <CircularProgress />
         </div>
       ) : (
-        <>
-          <Typography>{intl.formatMessage(messages.description)}</Typography>
+        <Box display="grid" gap={2}>
+          <Text>{intl.formatMessage(messages.description)}</Text>
 
           <Combobox
             label={intl.formatMessage(messages.sendToChannelSelectLabel)}
@@ -140,9 +141,9 @@ const GiftCardResendCodeDialog: React.FC<DialogProps> = ({ open, onClose }) => {
             className={classes.inputContainer}
             label={intl.formatMessage(messages.emailInputPlaceholder)}
           />
-        </>
+        </Box>
       )}
-    </NewActionDialog>
+    </ActionDialog>
   );
 };
 

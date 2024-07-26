@@ -72,7 +72,7 @@ export class ProductPage extends BasePage {
     readonly ratingInput = page.locator("[name='rating']"),
     readonly warehouseOption = page.locator("[role='menuitem']"),
     readonly costPriceInput = page.locator("[name*='costPrice']"),
-    readonly sellingPriceInput = page.locator("[name*='channel-price']"),
+    readonly sellingPriceInput = page.locator("[name*='channelListing-price']"),
     readonly firstRowDataGrid = page.locator("[data-testid='glide-cell-1-0']"),
     readonly searchInput = page.getByTestId("search-input"),
     readonly emptyDataGridListView = page.getByTestId("empty-data-grid-text"),
@@ -136,7 +136,7 @@ export class ProductPage extends BasePage {
   }
 
   async clickBulkDeleteButton() {
-    await this.bulkDeleteButton.click();
+    await this.submitButton.click();
   }
 
   async addSeo() {
@@ -211,7 +211,7 @@ export class ProductPage extends BasePage {
 
   async gotoProductListPage() {
     await this.page.goto(URL_LIST.products);
-    await this.waitForDOMToFullyLoad();
+    await this.waitForGrid();
   }
 
   async uploadProductImage(fileName: string) {

@@ -25,7 +25,9 @@ export const HomeActivityCard = ({ activities, testId }: HomeActivityCardProps) 
   if (activities.hasError) {
     return (
       <DashboardCard data-test-id={testId}>
-        <DashboardCard.Title>{title}</DashboardCard.Title>
+        <DashboardCard.Header>
+          <DashboardCard.Title>{title}</DashboardCard.Title>
+        </DashboardCard.Header>
         <DashboardCard.Content>
           <Text color="default2">
             <FormattedMessage id="/U8FUp" defaultMessage="Couldn't load activities" />
@@ -38,12 +40,14 @@ export const HomeActivityCard = ({ activities, testId }: HomeActivityCardProps) 
   if (activities.loading) {
     return (
       <DashboardCard data-test-id={testId}>
-        <DashboardCard.Title>{title}</DashboardCard.Title>
+        <DashboardCard.Header>
+          <DashboardCard.Title>{title}</DashboardCard.Title>
+        </DashboardCard.Header>
         <DashboardCard.Content>
           <Box display="flex" flexDirection="column" gap={5}>
-            <Skeleton />
-            <Skeleton __width="80%" />
-            <Skeleton />
+            <Skeleton height={3} />
+            <Skeleton __width="80%" height={3} />
+            <Skeleton height={3} />
           </Box>
         </DashboardCard.Content>
       </DashboardCard>
@@ -52,7 +56,9 @@ export const HomeActivityCard = ({ activities, testId }: HomeActivityCardProps) 
 
   return (
     <DashboardCard data-test-id={testId}>
-      <DashboardCard.Title>{title}</DashboardCard.Title>
+      <DashboardCard.Header>
+        <DashboardCard.Title>{title}</DashboardCard.Title>
+      </DashboardCard.Header>
       <DashboardCard.Content>
         <List>
           {renderCollection(

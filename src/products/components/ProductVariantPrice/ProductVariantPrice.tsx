@@ -7,14 +7,13 @@ import {
 import { DashboardCard } from "@dashboard/components/Card";
 import PriceField from "@dashboard/components/PriceField";
 import ResponsiveTable from "@dashboard/components/ResponsiveTable";
-import Skeleton from "@dashboard/components/Skeleton";
 import TableRowLink from "@dashboard/components/TableRowLink";
 import { ProductChannelListingErrorFragment, ProductErrorFragment } from "@dashboard/graphql";
 import { renderCollection } from "@dashboard/misc";
 import { getFormChannelError, getFormChannelErrors, getFormErrors } from "@dashboard/utils/errors";
 import getProductErrorMessage from "@dashboard/utils/errors/product";
 import { TableBody, TableCell, TableHead } from "@material-ui/core";
-import { sprinkles, Text, vars } from "@saleor/macaw-ui-next";
+import { Skeleton, sprinkles, Text, vars } from "@saleor/macaw-ui-next";
 import React from "react";
 import { FormattedMessage, MessageDescriptor, useIntl } from "react-intl";
 
@@ -29,6 +28,8 @@ interface ProductVariantPriceProps {
 
 const numberOfColumns = 2;
 
+const COMMON_CELL_STYLES = { verticalAlign: "baseline" };
+
 export const ProductVariantPrice: React.FC<ProductVariantPriceProps> = props => {
   const {
     disabled = false,
@@ -39,19 +40,24 @@ export const ProductVariantPrice: React.FC<ProductVariantPriceProps> = props => 
     disabledMessage,
   } = props;
   const intl = useIntl();
-  const channelErrors = errors.filter(e => "channels" in e) as ProductChannelListingErrorFragment[];
-  const apiErrors = getFormChannelErrors(["price", "costPrice"], channelErrors);
+
+  const channelApiErrors = errors.filter(
+    e => "channels" in e,
+  ) as ProductChannelListingErrorFragment[];
+  const apiErrors = getFormChannelErrors(["price", "costPrice"], channelApiErrors);
 
   if (disabled || !productVariantChannelListings.length) {
     return (
       <DashboardCard>
-        <DashboardCard.Title>
-          {intl.formatMessage({
-            id: "Xm9qOu",
-            defaultMessage: "Pricing",
-            description: "product pricing, section header",
-          })}
-        </DashboardCard.Title>
+        <DashboardCard.Header>
+          <DashboardCard.Title>
+            {intl.formatMessage({
+              id: "Xm9qOu",
+              defaultMessage: "Pricing",
+              description: "product pricing, section header",
+            })}
+          </DashboardCard.Title>
+        </DashboardCard.Header>
         <DashboardCard.Content>
           <Text size={2}>
             {intl.formatMessage(
@@ -70,13 +76,15 @@ export const ProductVariantPrice: React.FC<ProductVariantPriceProps> = props => 
 
   return (
     <DashboardCard>
-      <DashboardCard.Title>
-        {intl.formatMessage({
-          id: "Xm9qOu",
-          defaultMessage: "Pricing",
-          description: "product pricing, section header",
-        })}
-      </DashboardCard.Title>
+      <DashboardCard.Header>
+        <DashboardCard.Title>
+          {intl.formatMessage({
+            id: "Xm9qOu",
+            defaultMessage: "Pricing",
+            description: "product pricing, section header",
+          })}
+        </DashboardCard.Title>
+      </DashboardCard.Header>
       <ResponsiveTable>
         <TableHead>
           <TableRowLink>
@@ -113,24 +121,32 @@ export const ProductVariantPrice: React.FC<ProductVariantPriceProps> = props => 
           {renderCollection(
             productVariantChannelListings,
             (listing, index) => {
-              const fieldName = `${listing.id}-channel-price`;
+              const fieldName = `${listing.id}-channelListing-price`;
               const formErrors = getFormErrors([fieldName], errors);
-              const priceError =
+
+              const priceApiError =
                 getFormChannelError(apiErrors.price, listing.id) || formErrors[fieldName];
               const costPriceError = getFormChannelError(apiErrors.costPrice, listing.id);
 
               return (
                 <TableRowLink key={listing?.id || `skeleton-${index}`} data-test-id={listing?.name}>
-                  <TableCell style={{ paddingLeft: vars.spacing[6] }}>
+                  <TableCell
+                    style={{
+                      paddingLeft: vars.spacing[6],
+                    }}
+                  >
                     <Text>{listing?.name || <Skeleton />}</Text>
                   </TableCell>
-                  <TableCell>
+                  <TableCell style={COMMON_CELL_STYLES}>
                     {listing ? (
                       <PriceField
                         className={sprinkles({
-                          marginY: 2,
+                          [priceApiError ? "marginTop" : "marginY"]: 2,
                         })}
-                        error={!!priceError}
+                        error={!!priceApiError}
+                        helperText={
+                          priceApiError ? getProductErrorMessage(priceApiError, intl) : ""
+                        }
                         name={fieldName}
                         value={listing.price || ""}
                         currencySymbol={listing.currency}
@@ -143,13 +159,12 @@ export const ProductVariantPrice: React.FC<ProductVariantPriceProps> = props => 
                         }
                         disabled={loading}
                         required
-                        hint={priceError && getProductErrorMessage(priceError, intl)}
                       />
                     ) : (
                       <Skeleton />
                     )}
                   </TableCell>
-                  <TableCell>
+                  <TableCell style={COMMON_CELL_STYLES}>
                     {listing ? (
                       <PriceField
                         className={sprinkles({

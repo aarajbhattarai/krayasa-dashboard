@@ -56,7 +56,14 @@ export class OrdersPage extends BasePage {
     readonly orderRefundModal = page.getByTestId("order-refund-dialog"),
     readonly orderRefundSection = page.getByTestId("order-refund-section"),
     readonly orderRefundList = page.getByTestId("refund-list"),
+    readonly orderSummary = page.getByTestId("order-summary"),
     readonly editRefundButton = page.getByTestId("edit-refund-button").locator("button"),
+    readonly totalPrice = page
+      .getByTestId("order-total-price")
+      .locator(page.getByTestId("money-value")),
+    readonly subTotalPrice = page
+      .getByTestId("order-total-price")
+      .locator(page.getByTestId("money-value")),
   ) {
     super(page);
     this.markOrderAsPaidDialog = new MarkOrderAsPaidDialog(page);
@@ -73,6 +80,11 @@ export class OrdersPage extends BasePage {
 
   async clickCreateOrderButton() {
     await this.createOrderButton.click();
+  }
+
+  async goToDraftOrdersListView() {
+    await this.page.goto(URL_LIST.draftOrders);
+    await this.waitForGrid();
   }
 
   async clickAddTrackingButton() {
@@ -114,6 +126,8 @@ export class OrdersPage extends BasePage {
     await console.log("Navigating to order details view: " + orderLink);
     await this.page.goto(orderLink);
     await this.waitForDOMToFullyLoad();
+    await this.waitForGrid();
+    await this.waitForGrid();
   }
 
   async clickAddRefundButton() {

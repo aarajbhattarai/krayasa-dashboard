@@ -1,10 +1,9 @@
 // @ts-strict-ignore
 import { Button } from "@dashboard/components/Button";
-import CardTitle from "@dashboard/components/CardTitle";
+import { DashboardCard } from "@dashboard/components/Card";
 import { ChannelsAvailabilityDropdown } from "@dashboard/components/ChannelsAvailabilityDropdown";
 import Checkbox from "@dashboard/components/Checkbox";
 import ResponsiveTable from "@dashboard/components/ResponsiveTable";
-import Skeleton from "@dashboard/components/Skeleton";
 import { TableButtonWrapper } from "@dashboard/components/TableButtonWrapper/TableButtonWrapper";
 import TableCellAvatar from "@dashboard/components/TableCellAvatar";
 import { AVATAR_MARGIN } from "@dashboard/components/TableCellAvatar/Avatar";
@@ -14,8 +13,9 @@ import TableRowLink from "@dashboard/components/TableRowLink";
 import { CollectionDetailsQuery } from "@dashboard/graphql";
 import { productUrl } from "@dashboard/products/urls";
 import { mapEdgesToItems } from "@dashboard/utils/maps";
-import { Card, TableBody, TableCell, TableFooter } from "@material-ui/core";
+import { TableBody, TableCell, TableFooter } from "@material-ui/core";
 import { DeleteIcon, IconButton, makeStyles } from "@saleor/macaw-ui";
+import { Skeleton } from "@saleor/macaw-ui-next";
 import React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -75,10 +75,10 @@ const CollectionProducts: React.FC<CollectionProductsProps> = props => {
   const numberOfColumns = products?.length === 0 ? 4 : 5;
 
   return (
-    <Card>
-      <CardTitle
-        title={
-          collection ? (
+    <DashboardCard>
+      <DashboardCard.Header>
+        <DashboardCard.Title>
+          {collection ? (
             intl.formatMessage(
               {
                 id: "/dnWE8",
@@ -91,14 +91,14 @@ const CollectionProducts: React.FC<CollectionProductsProps> = props => {
             )
           ) : (
             <Skeleton />
-          )
-        }
-        toolbar={
+          )}
+        </DashboardCard.Title>
+        <DashboardCard.Toolbar>
           <Button data-test-id="add-product" disabled={disabled} variant="tertiary" onClick={onAdd}>
             <FormattedMessage id="scHVdW" defaultMessage="Assign product" description="button" />
           </Button>
-        }
-      />
+        </DashboardCard.Toolbar>
+      </DashboardCard.Header>
       <ResponsiveTable className={classes.table}>
         <TableHead
           colSpan={numberOfColumns}
@@ -196,7 +196,7 @@ const CollectionProducts: React.FC<CollectionProductsProps> = props => {
           )}
         </TableBody>
       </ResponsiveTable>
-    </Card>
+    </DashboardCard>
   );
 };
 

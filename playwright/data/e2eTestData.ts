@@ -37,13 +37,13 @@ export const ATTRIBUTES = {
     },
   ],
   attributeTypesWithAbilityToAddValues: {
-    names: ["DROPDOWN", "MULTISELECT", "SWATCH"],
+    names: ["Dropdown", "Multiple Select", "Swatch"],
   },
   attributeTypesWithoutAbilityToAddValues: {
-    names: ["FILE", "NUMERIC", "RICH_TEXT", "PLAIN_TEXT", "BOOLEAN", "DATE", "DATE_TIME"],
+    names: ["File", "Numeric", "Rich Text", "Plain Text", "Boolean", "Date", "Date Time"],
   },
   attributeReferencesEntities: {
-    names: ["PAGE", "PRODUCT", "PRODUCT_VARIANT"],
+    names: ["Page", "Product", "Product Variant"],
   },
   attributeToBeAssignedToPageType: {
     name: "Attribute to be assigned to page type",
@@ -404,11 +404,44 @@ export const PRODUCTS = {
       "a product to be deleted via bulk 3/3",
     ],
   },
+  productWithPriceHigherThan20: {
+    id: "HJvZHVjdDo2NA==",
+    name: "Ocean Poems",
+    variantSKU: "ocean-poems-mp3",
+    price: 22,
+  },
+  productWithPriceLowerThan20: {
+    name: "Bean Juice",
+    variantSKU: "57423879",
+    price: 3,
+  },
+  giftProduct: {
+    name: "Power Juice",
+  },
+  productWithDiscountChannelPLN: {
+    id: "UHJvZHVjdDo3NzA=",
+    name: "e2e-do-not-touch",
+    rewardPercentageDiscountValue: 40,
+    variant: {
+      id: "UHJvZHVjdFZhcmlhbnQ6MTIzOQ==",
+      sku: "TEST-123",
+      undiscountedPrice: 100,
+      discountedPrice: 60,
+    },
+  },
 };
 
 export const ORDERS = {
   draftOrdersToBeDeleted: {
     ids: ["#3266", "#3265"],
+  },
+  draftOrderChannelPLN: {
+    id: "T3JkZXI6Zjg0NTk3N2EtM2Y3Yy00NDY3LWI3N2MtZDY0ZjhhMDU2MmQy",
+    productInBasket: {
+      productName: "Black Hoodie",
+      price: 20,
+      variantId: "UHJvZHVjdFZhcmlhbnQ6Mjk3",
+    },
   },
   ordersWithinTransactionFlow: {
     markAsPaidOrder: {

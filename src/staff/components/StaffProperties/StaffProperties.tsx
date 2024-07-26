@@ -1,14 +1,14 @@
 // @ts-strict-ignore
 import photoIcon from "@assets/images/photo-icon.svg";
-import CardTitle from "@dashboard/components/CardTitle";
+import { DashboardCard } from "@dashboard/components/Card";
 import { StaffErrorFragment, StaffMemberDetailsFragment, UserFragment } from "@dashboard/graphql";
 import { commonMessages } from "@dashboard/intl";
 import { getUserInitials } from "@dashboard/misc";
 import { getFormErrors } from "@dashboard/utils/errors";
 import getStaffErrorMessage from "@dashboard/utils/errors/staff";
-import { Card, CardContent, TextField, Typography } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { makeStyles } from "@saleor/macaw-ui";
-import { vars } from "@saleor/macaw-ui-next";
+import { Text, vars } from "@saleor/macaw-ui-next";
 import React from "react";
 import SVG from "react-inlinesvg";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -136,15 +136,17 @@ const StaffProperties: React.FC<StaffPropertiesProps> = props => {
   });
 
   return (
-    <Card className={className} data-test-id="staff-member-information">
-      <CardTitle
-        title={intl.formatMessage({
-          id: "VTITVe",
-          defaultMessage: "Staff Member Information",
-          description: "section header",
-        })}
-      />
-      <CardContent>
+    <DashboardCard className={className} data-test-id="staff-member-information">
+      <DashboardCard.Header>
+        <DashboardCard.Title>
+          {intl.formatMessage({
+            id: "VTITVe",
+            defaultMessage: "Staff Member Information",
+            description: "section header",
+          })}
+        </DashboardCard.Title>
+      </DashboardCard.Header>
+      <DashboardCard.Content>
         <div className={classes.root}>
           <div>
             <div className={classes.avatar}>
@@ -152,28 +154,28 @@ const StaffProperties: React.FC<StaffPropertiesProps> = props => {
                 <img className={classes.avatarImage} src={staffMember.avatar.url} />
               ) : (
                 <div className={classes.avatarDefault}>
-                  <Typography>{getUserInitials(data)}</Typography>
+                  <Text>{getUserInitials(data)}</Text>
                 </div>
               )}
               {canEditAvatar && (
                 <div className={classes.avatarHover}>
                   <SVG src={photoIcon} />
-                  <Typography onClick={clickImgInput} className={classes.avatarActionText}>
+                  <Text onClick={clickImgInput} className={classes.avatarActionText}>
                     <FormattedMessage
                       id="+2VzH4"
                       defaultMessage="Change"
                       description="avatar change button"
                     />
-                  </Typography>
+                  </Text>
                   {hasAvatar && (
                     <>
-                      <Typography onClick={onImageDelete} className={classes.avatarActionText}>
+                      <Text onClick={onImageDelete} className={classes.avatarActionText}>
                         <FormattedMessage
                           id="11lR5V"
                           defaultMessage="Delete"
                           description="avatar delete button"
                         />
-                      </Typography>
+                      </Text>
                     </>
                   )}
                   <input
@@ -225,13 +227,13 @@ const StaffProperties: React.FC<StaffPropertiesProps> = props => {
             </div>
           </div>
         </div>
-      </CardContent>
+      </DashboardCard.Content>
       {!!formErrors.id && (
-        <CardContent>
-          <Typography color="error">{getStaffErrorMessage(formErrors.id, intl)}</Typography>
-        </CardContent>
+        <DashboardCard.Content>
+          <Text color="critical1">{getStaffErrorMessage(formErrors.id, intl)}</Text>
+        </DashboardCard.Content>
       )}
-    </Card>
+    </DashboardCard>
   );
 };
 
